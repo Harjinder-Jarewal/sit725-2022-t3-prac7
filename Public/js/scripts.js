@@ -1,47 +1,40 @@
-const cardList = [
 
-    {
 
-        title: "Kitten 2",
-        
-        image: "images/kitten2.jpg",
-
-        link: "About Kitten 2",
-
-        desciption: "Demo desciption about kitten 2"
-    },
-    {
-
-        title: "Kitten 3",
-        image: "images/kitten2.jpg",
-        link: "About Kitten 3",
-
-        desciption: "Demo desciption about kitten 3"
-
-    }
-
-]
-
+const getProjects = () => { 
+    $.get('/api/projects',(response) => { 
+        if(response.statusCode==200){ 
+            addCards(response.data); 
+        } 
+    })
+} 
+    
 const clickMe = () => {
-
     alert("Thanks for clicking me. Hope you have a nice day!")
-
 }
 
+const submitForm = () => { 
+    let formData = {}; 
+    formData.title = $('#title').val(); 
+    formData.image = $('#image').val(); 
+    formData.link = $('#link').val(); 
+    formData.description = $('#description').val(); 
+    console.log("Form Data Submitted: ", formData); 
+    addProjectToApp(formData); 
+} 
 
-const submitForm = () => {
+//ajax function... 
 
-    let formData = {};        
-    formData.first_name = $('#first_name').val();
-
-    formData.last_name = $('#last_name').val();
-
-    formData.password = $('#password').val();
-    formData.email = $('#email').val();
-
-    console.log("Form Data Submitted: ", formData);
-
-}
+const addProjectToApp = (project) => { 
+    $.ajax({ 
+        url: '/api/projects', 
+        data: project, 
+        type: 'POST', 
+        success: (result) => { 
+            alert(result.message); 
+            location.reload(); // it automatically reloads the page  
+        } 
+    }) 
+} 
 
 
 const addCards = (items) => {
@@ -68,17 +61,12 @@ const addCards = (items) => {
 
     });
 }
+$(document).ready(function(){ 
 
-
-$(document).ready(function(){
-
-    $('.materialboxed').materialbox();
-    $('#formSubmit').click(()=>{
-
-        submitForm();
-    })
-
-    addCards(cardList);
-    $('.modal').modal();
-
-  });
+    $('.materialboxed').materialbox(); 
+    $('#formSubmit').click(()=>{ 
+        submitForm(); 
+    }) 
+    getProjects(); 
+    $('.modal').modal(); 
+  }); 
