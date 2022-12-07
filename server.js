@@ -1,6 +1,7 @@
 var express = require("express")
 var app = express()
 var cors = require('cors')
+let projectCollection;
 
 app.use(express.static(__dirname+'/public'))
 app.use(express.json());
@@ -25,7 +26,7 @@ const createColllection = (collectionName) => {
         } 
     }) 
 }
-// insert project... 
+// insert project....
 const insertProjects = (project,callback) => { 
     projectCollection.insert(project,callback); 
 } 
@@ -67,13 +68,14 @@ app.post('/api/projects',(req,res) => {
 const getProjects = (callback) => { 
     projectCollection.find({}).toArray(callback); 
 } 
+
 app.get('/api/projects',(req,res) => { 
     getProjects((err,result) => { 
         if(err) { 
             res.json({statusCode: 400, message: err}) 
         } 
         else { 
-            res.json({statusCode: 200, data: cardList, message:"Success"}) 
+            res.json({statusCode: 200, message:"Success", data: result}) 
         } 
     }) 
 }) 

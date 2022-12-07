@@ -17,7 +17,8 @@ const submitForm = () => {
     formData.title = $('#title').val(); 
     formData.image = $('#image').val(); 
     formData.link = $('#link').val(); 
-    formData.description = $('#description').val(); 
+    formData.description = $('#description').val();
+     
     console.log("Form Data Submitted: ", formData); 
     addProjectToApp(formData); 
 } 
@@ -31,7 +32,7 @@ const addProjectToApp = (project) => {
         type: 'POST', 
         success: (result) => { 
             alert(result.message); 
-            location.reload(); // it automatically reloads the page  
+            location.reload();   
         } 
     }) 
 } 
